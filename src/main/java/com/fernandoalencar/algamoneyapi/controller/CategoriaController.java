@@ -30,7 +30,7 @@ public class CategoriaController {
 	private CategoriaRepository categoriaRepository;
 	
 	@PostMapping
-	public ResponseEntity<Categoria> cadastrar(@RequestBody Categoria categoria, HttpServletResponse response) {
+	public ResponseEntity<Categoria> cadastrar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
 		Categoria categoriaSalva = categoriaRepository.save(categoria);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(categoriaSalva.getId()).toUri();
