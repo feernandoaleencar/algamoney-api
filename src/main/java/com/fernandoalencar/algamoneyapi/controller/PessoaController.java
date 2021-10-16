@@ -34,4 +34,8 @@ public class PessoaController {
 		return ResponseEntity.created(uri).body(pessoaSalva);
 	}
 	
+	@GetMapping
+	public List<Pessoa> listar(){
+		return pessoaRepository.findAll();
+	}
 }
