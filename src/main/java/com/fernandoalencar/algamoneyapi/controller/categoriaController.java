@@ -1,11 +1,13 @@
 package com.fernandoalencar.algamoneyapi.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +34,9 @@ public class categoriaController {
 		return ResponseEntity.created(uri).body(categoriaSalva);
 	}
 	
+	@GetMapping
+	public List<Categoria> listar(){
+		return categoriaRepository.findAll();
+	}
 	
 }
