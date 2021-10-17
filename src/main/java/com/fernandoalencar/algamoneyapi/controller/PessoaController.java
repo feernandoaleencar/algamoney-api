@@ -66,4 +66,14 @@ public class PessoaController {
 		return ResponseEntity.ok(pessoa);
 	}
 	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Pessoa> excluir(@PathVariable Long id){
+		
+		if (!pessoaRepository.existsById(id)) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		pessoaRepository.deleteById(id);
+		return ResponseEntity.noContent().build();
+	}
 }
