@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,4 +52,18 @@ public class PessoaController {
 		return pessoa.isPresent() ? ResponseEntity.ok(pessoa.get()) : ResponseEntity.notFound().build();
 		
 	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Pessoa> atualizar(@PathVariable Long id, @RequestBody Pessoa pessoa){
+		
+		if (!pessoaRepository.existsById(id)) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		pessoa.setId(id);
+		pessoaRepository.save(pessoa);
+		
+		return ResponseEntity.ok(pessoa);
+	}
+	
 }
