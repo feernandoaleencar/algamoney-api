@@ -3,6 +3,7 @@ package com.fernandoalencar.algamoneyapi.exceptionhandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -24,18 +25,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class AlgaMoneyExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Autowired
-	private MessageSource messagesource;
+	private MessageSource messageSource;
 
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
+	    HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		String mensagemUsuario = messagesource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
-		String mensagemDesenvolvedor = ex.getCause().toString();
+	  String mensagemUsuario = this.messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
+	  String mensagemDesenvolvedor = Optional.ofNullable(ex.getCause()).orElse(ex).toString();
 
-		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+	  List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 
-		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
+	  return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
 	}
 
 	@Override
@@ -50,19 +51,19 @@ public class AlgaMoneyExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({ EmptyResultDataAccessException.class })
 	public ResponseEntity<Object> handlerEmptyResultDataAccessException(EmptyResultDataAccessException ex,
 			WebRequest request) {
-		String mensagemUsuario = messagesource.getMessage("recurso.nao-encontrado", null, LocaleContextHolder.getLocale());
+		String mensagemUsuario = messageSource.getMessage("recurso.nao-encontrado", null, LocaleContextHolder.getLocale());
 		String mensagemDesenvolvedor = ex.toString();
 
 		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
-
+	
 	private List<Erro> listarErros(BindingResult bindingResult) {
 		List<Erro> erros = new ArrayList<>();
 
 		for (FieldError fieldError : bindingResult.getFieldErrors()) {
-			String mensagemUsuario = messagesource.getMessage(fieldError, LocaleContextHolder.getLocale());
+			String mensagemUsuario = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
 			String mensagemDesenvolvedor = fieldError.toString();
 			erros.add(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		}
