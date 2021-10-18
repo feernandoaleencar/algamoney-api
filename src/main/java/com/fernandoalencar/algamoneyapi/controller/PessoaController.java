@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fernandoalencar.algamoneyapi.event.RecursoCriadoEvent;
 import com.fernandoalencar.algamoneyapi.model.Pessoa;
 import com.fernandoalencar.algamoneyapi.repository.PessoaRepository;
+import com.fernandoalencar.algamoneyapi.service.PessoaService;
 
 @RestController
 @RequestMapping("/pessoas")
@@ -29,6 +30,9 @@ public class PessoaController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private PessoaService pessoaService;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -57,16 +61,10 @@ public class PessoaController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Pessoa> atualizar(@PathVariable Long id, @RequestBody Pessoa pessoa){
+	public ResponseEntity<Pessoa> atualizar(@PathVariable Long id,@Valid @RequestBody Pessoa pessoa){
 		
-		if (!pessoaRepository.existsById(id)) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		pessoa.setId(id);
-		pessoaRepository.save(pessoa);
-		
-		return ResponseEntity.ok(pessoa);
+		Pessoa pessoaSalva = pessoaService.atualizar(id, pessoa);
+		return ResponseEntity.ok(pessoaSalva);
 	}
 	
 	@DeleteMapping("/{id}")
