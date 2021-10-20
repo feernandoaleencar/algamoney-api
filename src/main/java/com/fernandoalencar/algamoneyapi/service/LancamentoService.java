@@ -1,32 +1,34 @@
 package com.fernandoalencar.algamoneyapi.service;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.fernandoalencar.algamoneyapi.event.RecursoCriadoEvent;
 import com.fernandoalencar.algamoneyapi.model.Lancamento;
+import com.fernandoalencar.algamoneyapi.model.Pessoa;
 import com.fernandoalencar.algamoneyapi.repository.LancamentoRepository;
+import com.fernandoalencar.algamoneyapi.repository.PessoaRepository;
+import com.fernandoalencar.algamoneyapi.service.exception.PessoaInexistenteOuInativaException;
 
 @Service
 public class LancamentoService {
 	
 	@Autowired
-	private LancamentoRepository lancamentoRepository;
+	private PessoaRepository pessoaRepository;
 	
 	@Autowired
-	private ApplicationEventPublisher publisher;
+	private LancamentoRepository lancamentoRepository;
 
-	public ResponseEntity<Lancamento> salvar(@Valid Lancamento lancamento, HttpServletResponse response){
-		Lancamento lancamentoSalvo = lancamentoRepository.save(lancamento);
+	public Lancamento salvar(Lancamento lancamento) {
+		Optional<Pessoa> pessoa = pessoaRepository.findById(lancamento.getPessoa().getId());
 		
-		publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamentoSalvo.getId()));
+		if (!pessoa.isPresent() || !pessoa.get().getAtivo()) {
+			throw new PessoaInexistenteOuInativaException();
+		}
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(lancamentoSalvo);
+		return lancamentoRepository.save(lancamento);
 	}
+	
+
 }
