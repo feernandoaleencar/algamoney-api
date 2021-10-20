@@ -1,6 +1,7 @@
 package com.fernandoalencar.algamoneyapi.service;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -21,7 +22,7 @@ public class LancamentoService {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 
-	public ResponseEntity<Lancamento> salvar(Lancamento lancamento, HttpServletResponse response){
+	public ResponseEntity<Lancamento> salvar(@Valid Lancamento lancamento, HttpServletResponse response){
 		Lancamento lancamentoSalvo = lancamentoRepository.save(lancamento);
 		
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamentoSalvo.getId()));
