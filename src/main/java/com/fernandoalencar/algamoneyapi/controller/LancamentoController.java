@@ -81,4 +81,9 @@ public class LancamentoController {
 		return ResponseEntity.badRequest().body(erros);
 	}
 	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long id) {
+		lancamentoRepository.deleteById(id);
+	}
 }
