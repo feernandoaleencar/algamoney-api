@@ -41,7 +41,7 @@ public class LancamentoController {
 	private LancamentoRepository lancamentoRepository;
 
 	@Autowired
-	private LancamentoService lancamentoService;
+	private LancamentoService lancamentoService; //TODO
 
 	@Autowired
 	private ApplicationEventPublisher publisher;
