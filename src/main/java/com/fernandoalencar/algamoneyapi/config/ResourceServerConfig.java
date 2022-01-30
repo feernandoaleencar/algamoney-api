@@ -19,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -38,7 +39,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -69,7 +70,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     private JwtAuthenticationConverter jwtAuthenticationConverter() {
@@ -94,9 +95,4 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
         return jwtAuthenticationConverter;
     }
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        return super.userDetailsServiceBean();
-    }
 }

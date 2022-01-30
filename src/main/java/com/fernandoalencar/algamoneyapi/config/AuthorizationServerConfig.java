@@ -25,19 +25,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private UserDetailsService userDetailsService;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient("angular")
-                .secret(passwordEncoder.encode("@ngul@r0")) // @ngul@r0
+                .secret("$2a$10$UAc049fUm6Bxy8X/.mpn8.PfD2ncb4ZgvmEa5Hb.JOGVJNX1ampgG") // @ngul@r0
                 .scopes("read", "write")
                 .authorizedGrantTypes("password", "refresh_token")
-                .accessTokenValiditySeconds(20)
+                .accessTokenValiditySeconds(1800)
                 .refreshTokenValiditySeconds(3600 * 24);
     }
 
@@ -45,10 +42,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 .authenticationManager(authenticationManager)
+                .userDetailsService(userDetailsService)
                 .accessTokenConverter(accessTokenConverter())
                 .tokenStore(tokenStore())
-                .reuseRefreshTokens(false)
-                .userDetailsService(userDetailsService);
+                .reuseRefreshTokens(false);
     }
 
     @Bean
