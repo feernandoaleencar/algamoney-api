@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.fernandoalencar.algamoneyapi.repository.projection.ResumoLancamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
@@ -46,7 +47,7 @@ public class LancamentoController {
 
 	@Autowired
 	private ApplicationEventPublisher publisher;
-	
+
 	@Autowired
 	private MessageSource messageSource;
 
@@ -65,6 +66,12 @@ public class LancamentoController {
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
 	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) {
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
+	}
+
+	@GetMapping(params = "resumo")
+	@PreAuthorize("hasAuthority(1) and hasAuthority(8)")
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		return lancamentoRepository.resumir(lancamentoFilter, pageable);
 	}
 
 	@GetMapping("/{id}")
@@ -86,9 +93,10 @@ public class LancamentoController {
 
 		return ResponseEntity.badRequest().body(erros);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and hasAuthority('SCOPE_write')")
 	public void remover(@PathVariable Long id) {
 		lancamentoRepository.deleteById(id);
 	}
