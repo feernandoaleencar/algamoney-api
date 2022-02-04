@@ -32,13 +32,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory() //
                 .withClient("angular") //
                 .secret("$2a$10$hi588a6CwB/gPLmy0sdxF.BmsE3ZPA7abhduLpsHe3m3ILpr1PrjO") //
-                .scopes("READ", "write") //
+                .scopes("read", "write") //
                 .authorizedGrantTypes("password", "refresh_token") //
                 .accessTokenValiditySeconds(1800) //
                 .refreshTokenValiditySeconds(3600 * 24)
                 .and()
                 .withClient("mobile") //
-                .secret("mobile123") //
+                .secret("$2a$10$6KcR7UJN9FJG9L9w4AsvgeasZSoQMM5f6Ogzqqkc9AxRKH/SIlob2") //
                 .scopes("read") //
                 .authorizedGrantTypes("password", "refresh_token") //
                 .accessTokenValiditySeconds(1800) //
@@ -48,10 +48,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .tokenStore(tokenStore()) //
-                .accessTokenConverter(accessTokenConverter()) //
-                .reuseRefreshTokens(false) //
-                .authenticationManager(authenticationManager);
+                .tokenStore(tokenStore())
+                .accessTokenConverter(this.accessTokenConverter())
+                .reuseRefreshTokens(false)
+                .userDetailsService(this.userDetailsService)
+                .authenticationManager(this.authenticationManager);
     }
 
     @Bean
