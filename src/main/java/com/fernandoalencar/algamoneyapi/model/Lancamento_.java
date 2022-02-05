@@ -10,7 +10,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Lancamento.class)
 public abstract class Lancamento_ {
 
-	public static volatile SingularAttribute<Lancamento, Long> codigo;
+	public static volatile SingularAttribute<Lancamento, Long> id;
 	public static volatile SingularAttribute<Lancamento, String> observacao;
 	public static volatile SingularAttribute<Lancamento, TipoLancamento> tipo;
 	public static volatile SingularAttribute<Lancamento, LocalDate> dataPagamento;
