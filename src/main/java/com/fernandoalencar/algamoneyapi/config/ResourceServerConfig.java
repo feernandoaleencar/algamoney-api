@@ -60,6 +60,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter{
         return super.authenticationManager();
     }
 
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
