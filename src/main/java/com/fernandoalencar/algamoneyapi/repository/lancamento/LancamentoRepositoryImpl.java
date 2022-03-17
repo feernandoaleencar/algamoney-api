@@ -1,5 +1,6 @@
 package com.fernandoalencar.algamoneyapi.repository.lancamento;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaCategoria;
 import com.fernandoalencar.algamoneyapi.model.Categoria_;
 import com.fernandoalencar.algamoneyapi.model.Pessoa_;
 import com.fernandoalencar.algamoneyapi.repository.projection.ResumoLancamento;
@@ -72,6 +74,33 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
         adicionarRestricoesDePaginacao(query, pageable);
 
         return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter));
+    }
+
+    @Override
+    public List<LancamentoEstatisticaCategoria> porCategoria(LocalDate mesReferencia) {
+        CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+
+        CriteriaQuery<LancamentoEstatisticaCategoria> criteriaQuery = criteriaBuilder.createQuery(LancamentoEstatisticaCategoria.class);
+
+        Root<Lancamento> root = criteriaQuery.from(Lancamento.class);
+
+        criteriaQuery.select(criteriaBuilder.construct(LancamentoEstatisticaCategoria.class,
+                root.get(Lancamento_.categoria),
+                criteriaBuilder.sum(root.get(Lancamento_.valor))));
+
+        LocalDate primeiroDia = mesReferencia.withDayOfMonth(1);
+        LocalDate ultimoDia = mesReferencia.withDayOfMonth(mesReferencia.lengthOfMonth());
+
+        criteriaQuery.where(
+                criteriaBuilder.greaterThanOrEqualTo(root.get(Lancamento_.dataVencimento), primeiroDia),
+                criteriaBuilder.lessThanOrEqualTo(root.get(Lancamento_.dataVencimento), ultimoDia)
+        );
+
+        criteriaQuery.groupBy(root.get(Lancamento_.categoria));
+
+        TypedQuery<LancamentoEstatisticaCategoria> typedQuery = manager.createQuery(criteriaQuery);
+
+        return typedQuery.getResultList();
     }
 
     private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter, CriteriaBuilder builder,
