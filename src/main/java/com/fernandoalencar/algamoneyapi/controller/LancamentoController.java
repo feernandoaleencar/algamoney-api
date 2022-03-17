@@ -1,5 +1,6 @@
 package com.fernandoalencar.algamoneyapi.controller;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaCategoria;
 import com.fernandoalencar.algamoneyapi.repository.projection.ResumoLancamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -103,4 +105,11 @@ public class LancamentoController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
+	@GetMapping("/estatistica/por-categoria")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
+	public List<LancamentoEstatisticaCategoria> porCategoria(){
+		return this.lancamentoRepository.porCategoria(LocalDate.now());
+	}
+
 }
