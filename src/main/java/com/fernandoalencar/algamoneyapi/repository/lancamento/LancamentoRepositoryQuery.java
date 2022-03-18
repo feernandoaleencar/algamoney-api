@@ -1,6 +1,7 @@
 package com.fernandoalencar.algamoneyapi.repository.lancamento;
 
 import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaCategoria;
+import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaDia;
 import com.fernandoalencar.algamoneyapi.repository.projection.ResumoLancamento;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +18,5 @@ public interface LancamentoRepositoryQuery {
 	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable);
 
 	public List<LancamentoEstatisticaCategoria> porCategoria(LocalDate mesReferencia);
+	public List<LancamentoEstatisticaDia> porDia(LocalDate mesReferencia);
 }
