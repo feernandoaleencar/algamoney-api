@@ -2,6 +2,7 @@ package com.fernandoalencar.algamoneyapi.repository.lancamento;
 
 import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaCategoria;
 import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaDia;
+import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaPessoa;
 import com.fernandoalencar.algamoneyapi.repository.projection.ResumoLancamento;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,5 @@ public interface LancamentoRepositoryQuery {
 
 	public List<LancamentoEstatisticaCategoria> porCategoria(LocalDate mesReferencia);
 	public List<LancamentoEstatisticaDia> porDia(LocalDate mesReferencia);
+	public List<LancamentoEstatisticaPessoa> porPessoa(LocalDate inicio, LocalDate fim);
 }
