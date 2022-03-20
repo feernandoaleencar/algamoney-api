@@ -12,6 +12,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.fernandoalencar.algamoneyapi.model.Lancamento;
@@ -86,4 +87,12 @@ public class LancamentoService {
         return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 
+    Integer i = 0;
+    //@Scheduled(fixedDelay = 1000 * 2)
+    @Scheduled(cron = "* 16 20 * * *", zone = "America/Sao_Paulo")
+    public void avisarSobreLancamentosVencidos(){
+
+        i = i + 1;
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>Método sendo executado " + i + "....<<<<<<<<<<<<<<<<<<<<<<<<<");
+    }
 }
