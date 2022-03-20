@@ -1,7 +1,15 @@
 package com.fernandoalencar.algamoneyapi.service;
 
-import java.util.Optional;
+import java.io.InputStream;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.*;
 
+import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaPessoa;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +69,21 @@ public class LancamentoService {
 		}
 		*/
         return lancamentoRepository.findById(codigo).orElseThrow(() -> new IllegalArgumentException());
+    }
+
+    public byte[] relatorioPorPessoa(LocalDate inicio, LocalDate fim) throws Exception{
+        List<LancamentoEstatisticaPessoa> dados = lancamentoRepository.porPessoa(inicio, fim);
+
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("DT_INICIO", Date.valueOf(inicio));
+        parametros.put("DT_FIM", Date.valueOf(fim));
+        parametros.put("REPORT_LOCALE", new Locale("pt","BR"));
+
+        InputStream inputStream = this.getClass().getResourceAsStream("/relatorios/lancamentos-por-pessoa.jasper");
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(dados));
+
+        return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 
 }
