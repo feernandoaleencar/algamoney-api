@@ -87,12 +87,9 @@ public class LancamentoService {
         return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 
-    Integer i = 0;
     //@Scheduled(fixedDelay = 1000 * 2)
     @Scheduled(cron = "* 16 20 * * *", zone = "America/Sao_Paulo")
     public void avisarSobreLancamentosVencidos(){
-
-        i = i + 1;
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>Método sendo executado " + i + "....<<<<<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>Método sendo executado....<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 }
