@@ -22,7 +22,8 @@
 
     <tbody>
     <tr style="border-bottom: 1px solid #ccc; border-top: 1px solid #ccc;"
-        th:each="lancamento: ${lancamentos}">
+        th:each="lancamento: ${lancamentos}"
+        th:styleappend="${lancamento.receita} ? 'color: blue;' : 'color: red;'">
         <td th:text="${lancamento.tipo.descricao}">Receita</td>
         <td th:text="${lancamento.pessoa.nome}">João Silva</td>
         <td th:text="${lancamento.descricao}">Salário mensal</td>
