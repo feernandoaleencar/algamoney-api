@@ -1,6 +1,7 @@
 package com.fernandoalencar.algamoneyapi.mail;
 
 import com.fernandoalencar.algamoneyapi.model.Lancamento;
+import com.fernandoalencar.algamoneyapi.model.Usuario;
 import com.fernandoalencar.algamoneyapi.repository.LancamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -14,6 +15,7 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class Mailer {
@@ -75,5 +77,12 @@ public class Mailer {
 
     }
 
+    public void avisarSobreLancamentosVencidos(List<Lancamento> vencidos, List<Usuario> destinatarios){
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("lancamentos", vencidos);
 
+        List<String> emails = destinatarios.stream().map(usuario -> usuario.getEmail()).collect(Collectors.toList());
+
+        this.enviarEmail("fernandoalencarcontato@gmail.com", emails, "Lançamentos Vencidos", "mail/aviso-lancamentos-vencidos", variaveis);
+    }
 }

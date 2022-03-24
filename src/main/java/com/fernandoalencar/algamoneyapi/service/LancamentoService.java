@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaPessoa;
+import com.fernandoalencar.algamoneyapi.mail.Mailer;
+import com.fernandoalencar.algamoneyapi.model.Usuario;
+import com.fernandoalencar.algamoneyapi.repository.UsuarioRepository;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -29,6 +32,14 @@ public class LancamentoService {
 
     @Autowired
     private LancamentoRepository lancamentoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    private static final String DESTINATARIOS = "ROLE_PESQUISAR_LANCAMENTO";
+
+    @Autowired
+    private Mailer mailer;
 
     public Lancamento salvar(Lancamento lancamento) {
         Optional<Pessoa> pessoa = pessoaRepository.findById(lancamento.getPessoa().getId());
@@ -87,9 +98,13 @@ public class LancamentoService {
         return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 
-    //@Scheduled(fixedDelay = 1000 * 2)
-    @Scheduled(cron = "* 16 20 * * *", zone = "America/Sao_Paulo")
+    //@Scheduled(cron = "* 16 20 * * *", zone = "America/Sao_Paulo")
+    @Scheduled(fixedDelay = 1000 * 60 * 30)
     public void avisarSobreLancamentosVencidos(){
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>Método sendo executado....<<<<<<<<<<<<<<<<<<<<<<<<<");
+        List<Lancamento> vencidos = lancamentoRepository.findbyDataVencimentoLessThanEqualsAndDataPagamentoIsNull(LocalDate.now());
+
+        List<Usuario> destinatarios = usuarioRepository.findByPermissoesDescricao(DESTINATARIOS);
+
+        mailer.avisarSobreLancamentosVencidos(vencidos, destinatarios);
     }
 }
