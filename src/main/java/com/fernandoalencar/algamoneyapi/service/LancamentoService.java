@@ -101,7 +101,7 @@ public class LancamentoService {
     //@Scheduled(cron = "* 16 20 * * *", zone = "America/Sao_Paulo")
     @Scheduled(fixedDelay = 1000 * 60 * 30)
     public void avisarSobreLancamentosVencidos(){
-        List<Lancamento> vencidos = lancamentoRepository.findbyDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
+        List<Lancamento> vencidos = lancamentoRepository.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
 
         List<Usuario> destinatarios = usuarioRepository.findByPermissoesDescricao(DESTINATARIOS);
 
