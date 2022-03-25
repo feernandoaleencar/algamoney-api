@@ -10,5 +10,6 @@ import java.util.List;
 
 public interface LancamentoRepository extends JpaRepository<Lancamento, Long>, LancamentoRepositoryQuery {
 
-    List<Lancamento> findbyDataVencimentoLessThanEqualsAndDataPagamentoIsNull(LocalDate data);
+    List<Lancamento> findbyDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate data);
+
 }
