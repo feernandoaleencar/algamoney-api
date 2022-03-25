@@ -98,8 +98,7 @@ public class LancamentoService {
         return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 
-    //@Scheduled(cron = "* 16 20 * * *", zone = "America/Sao_Paulo")
-    @Scheduled(fixedDelay = 1000 * 60 * 30)
+    @Scheduled(cron = "0 0 6 * * *", zone = "America/Sao_Paulo")
     public void avisarSobreLancamentosVencidos(){
         List<Lancamento> vencidos = lancamentoRepository.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
 
