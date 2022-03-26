@@ -28,7 +28,7 @@ public class Pessoa {
 
 	@JsonIgnoreProperties("pessoa")
 	@Valid
-	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Contato> contatos;
 
 	public Long getId() {
