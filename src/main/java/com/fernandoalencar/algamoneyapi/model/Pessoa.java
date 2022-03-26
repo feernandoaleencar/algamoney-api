@@ -3,8 +3,10 @@ package com.fernandoalencar.algamoneyapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "pessoa")
@@ -22,6 +24,10 @@ public class Pessoa {
 
 	@Embedded
 	private Endereco endereco;
+
+	@Valid
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Contato> contatos;
 
 	public Long getId() {
 		return id;
@@ -59,6 +65,14 @@ public class Pessoa {
 	@Transient
 	public boolean isInativo() {
 		return !this.ativo;
+	}
+
+	public List<Contato> getContatos() {
+		return contatos;
+	}
+
+	public void setContatos(List<Contato> contatos) {
+		this.contatos = contatos;
 	}
 
 	@Override
