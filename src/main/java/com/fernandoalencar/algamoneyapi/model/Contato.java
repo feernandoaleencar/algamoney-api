@@ -26,7 +26,6 @@ public class Contato {
 
     @ManyToOne
     @JoinColumn(name = "id_pessoa")
-    @NotNull
     private Pessoa pessoa;
 
     public Long getId() {
