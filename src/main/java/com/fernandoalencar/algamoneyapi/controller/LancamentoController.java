@@ -1,5 +1,9 @@
 package com.fernandoalencar.algamoneyapi.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +36,7 @@ import com.fernandoalencar.algamoneyapi.repository.LancamentoRepository;
 import com.fernandoalencar.algamoneyapi.repository.filter.LancamentoFilter;
 import com.fernandoalencar.algamoneyapi.service.LancamentoService;
 import com.fernandoalencar.algamoneyapi.service.exception.PessoaInexistenteOuInativaException;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -132,6 +137,18 @@ public class LancamentoController {
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE)
 				.body(relatorio);
+	}
+
+	@PostMapping("/anexo")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
+	public String uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
+		OutputStream out = new FileOutputStream(
+				"E:/Users/Fernando/Documents/anexos/anexo--" + anexo.getOriginalFilename());
+
+		out.write(anexo.getBytes());
+		out.close();
+
+		return "ok";
 	}
 
 }
