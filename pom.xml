@@ -20,6 +20,8 @@
 		<jasperreports.version>6.19.0</jasperreports.version>
 		<jasperreports-functions.version>6.19.0</jasperreports-functions.version>
 		<jasperreports-fonts.version>6.19.0</jasperreports-fonts.version>
+
+		<aws-java-sdk.version>1.11.670</aws-java-sdk.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -134,6 +136,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+
+		<!-- Amazon S3 -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>${aws-java-sdk.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
