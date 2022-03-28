@@ -46,7 +46,6 @@ public class S3 {
 
             putObjectRequest.setTagging(new ObjectTagging(
                     Arrays.asList(new Tag("expirar", "true"))));
-            ));
 
             amazonS3.putObject(putObjectRequest);
 
