@@ -12,9 +12,11 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.fernandoalencar.algamoneyapi.dto.Anexo;
 import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaCategoria;
 import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaDia;
 import com.fernandoalencar.algamoneyapi.repository.projection.ResumoLancamento;
+import com.fernandoalencar.algamoneyapi.storage.S3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
@@ -53,6 +55,9 @@ public class LancamentoController {
 
 	@Autowired
 	private MessageSource messageSource;
+
+	@Autowired
+	private S3 s3;
 
 	@PostMapping
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
@@ -141,14 +146,9 @@ public class LancamentoController {
 
 	@PostMapping("/anexo")
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
-	public String uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
-		OutputStream out = new FileOutputStream(
-				"E:/Users/Fernando/Documents/anexos/anexo--" + anexo.getOriginalFilename());
-
-		out.write(anexo.getBytes());
-		out.close();
-
-		return "ok";
+	public Anexo uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
+		String nome = s3.salvarTemporariamente(anexo);
+		return new Anexo(nome, s3.configurarUrl(nome));
 	}
 
 }

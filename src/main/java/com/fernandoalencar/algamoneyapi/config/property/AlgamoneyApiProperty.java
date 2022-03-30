@@ -41,7 +41,7 @@ public class AlgamoneyApiProperty {
 
         private String accessKeyId;
 
-        private String secretAcessKeyId;
+        private String secretAccessKey;
 
         private String bucket = "fa-api-arquivos";
 
@@ -53,12 +53,12 @@ public class AlgamoneyApiProperty {
             this.accessKeyId = accessKeyId;
         }
 
-        public String getSecretAcessKeyId() {
-            return secretAcessKeyId;
+        public String getSecretAccessKey() {
+            return secretAccessKey;
         }
 
-        public void setSecretAcessKeyId(String secretAcessKeyId) {
-            this.secretAcessKeyId = secretAcessKeyId;
+        public void setSecretAccessKey(String secretAccessKey) {
+            this.secretAccessKey = secretAccessKey;
         }
 
         public String getBucket() {

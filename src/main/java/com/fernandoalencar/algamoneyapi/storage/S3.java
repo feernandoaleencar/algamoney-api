@@ -19,7 +19,6 @@ public class S3 {
 
     private static final Logger logger = LoggerFactory.getLogger(S3.class);
 
-    @Qualifier("algamoney-com.fernandoalencar.algamoneyapi.config.property.AlgamoneyApiProperty")
     @Autowired
     private AlgamoneyApiProperty property;
 
@@ -61,5 +60,9 @@ public class S3 {
 
     private String gerarNomeUnico(String originalFilename) {
         return UUID.randomUUID().toString() + "_" + originalFilename;
+    }
+
+    public String configurarUrl(String objeto) {
+        return "\\\\" + property.getS3().getBucket() + ".s3.amazonaws.com/" + objeto;
     }
 }
