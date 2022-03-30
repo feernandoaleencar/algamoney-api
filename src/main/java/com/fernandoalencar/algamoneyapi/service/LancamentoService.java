@@ -9,6 +9,7 @@ import com.fernandoalencar.algamoneyapi.dto.LancamentoEstatisticaPessoa;
 import com.fernandoalencar.algamoneyapi.mail.Mailer;
 import com.fernandoalencar.algamoneyapi.model.Usuario;
 import com.fernandoalencar.algamoneyapi.repository.UsuarioRepository;
+import com.fernandoalencar.algamoneyapi.storage.S3;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -25,6 +26,7 @@ import com.fernandoalencar.algamoneyapi.model.Pessoa;
 import com.fernandoalencar.algamoneyapi.repository.LancamentoRepository;
 import com.fernandoalencar.algamoneyapi.repository.PessoaRepository;
 import com.fernandoalencar.algamoneyapi.service.exception.PessoaInexistenteOuInativaException;
+import org.springframework.util.StringUtils;
 
 @Service
 public class LancamentoService {
@@ -45,11 +47,14 @@ public class LancamentoService {
     @Autowired
     private Mailer mailer;
 
-    public Lancamento salvar(Lancamento lancamento) {
-        Optional<Pessoa> pessoa = pessoaRepository.findById(lancamento.getPessoa().getId());
+    @Autowired
+    private S3 s3;
 
-        if (!pessoa.isPresent() || !pessoa.get().getAtivo()) {
-            throw new PessoaInexistenteOuInativaException();
+    public Lancamento salvar(Lancamento lancamento) {
+        validarPessoa(lancamento);
+
+        if (StringUtils.hasText(lancamento.getAnexo())){
+            s3.salvar(lancamento.getAnexo());
         }
 
         return lancamentoRepository.save(lancamento);
