@@ -53,7 +53,7 @@ public class LancamentoService {
     public Lancamento salvar(Lancamento lancamento) {
         validarPessoa(lancamento);
 
-        if (StringUtils.hasText(lancamento.getAnexo())){
+        if (StringUtils.hasText(lancamento.getAnexo())) {
             s3.salvar(lancamento.getAnexo());
         }
 
@@ -64,6 +64,12 @@ public class LancamentoService {
         Lancamento lancamentoSalvo = buscarLancamentoExistente(id);
         if (!lancamento.getPessoa().equals(lancamentoSalvo.getPessoa())) {
             validarPessoa(lancamento);
+        }
+
+        if (StringUtils.isEmpty(lancamento.getAnexo()) && StringUtils.hasText(lancamentoSalvo.getAnexo())) {
+            s3.remover(lancamentoSalvo.getAnexo());
+        } else if (StringUtils.hasText(lancamento.getAnexo()) && !lancamento.getAnexo().equals(lancamentoSalvo.getAnexo())) {
+            s3.substituir(lancamentoSalvo.getAnexo(), lancamento.getAnexo());
         }
 
         BeanUtils.copyProperties(lancamento, lancamentoSalvo, "id");
