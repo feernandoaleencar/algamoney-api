@@ -24,7 +24,6 @@ public class S3Config {
     @Autowired
     private AlgamoneyApiProperty property;
 
-    @Bean
     public AmazonS3 amazonS3() {
         AWSCredentials credenciais = new BasicAWSCredentials(
                 property.getS3().getAccessKeyId(), property.getS3().getSecretAccessKey());
