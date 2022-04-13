@@ -12,7 +12,6 @@ import com.amazonaws.services.s3.model.Tag;
 import com.amazonaws.services.s3.model.lifecycle.LifecycleFilter;
 import com.amazonaws.services.s3.model.lifecycle.LifecycleTagPredicate;
 import com.fernandoalencar.algamoneyapi.config.property.AlgamoneyApiProperty;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +19,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class S3Config {
 
-    @Qualifier("algamoneyApiProperty")
-    @Autowired
     private AlgamoneyApiProperty property;
+
+    public S3Config(@Qualifier("algamoneyApiProperty") AlgamoneyApiProperty property) {
+        this.property = property;
+    }
 
     @Bean
     public AmazonS3 amazonS3() {
