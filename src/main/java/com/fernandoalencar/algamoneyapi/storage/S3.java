@@ -27,7 +27,7 @@ public class S3 {
     private AlgamoneyApiProperty property;
 
     @Autowired
-    public AmazonS3 amazonS3;
+    private AmazonS3 amazonS3;
 
     public String salvarTemporariamente(MultipartFile arquivo) {
         AccessControlList acl = new AccessControlList();
