@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +26,6 @@ public class S3 {
     @Autowired
     private AlgamoneyApiProperty property;
 
-    @Autowired
     private AmazonS3 amazonS3;
 
     public String salvarTemporariamente(MultipartFile arquivo) {
