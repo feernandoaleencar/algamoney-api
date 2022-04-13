@@ -21,7 +21,7 @@ public class S3 {
 
     private static final Logger logger = LoggerFactory.getLogger(S3.class);
 
-    @Qualifier("algamoney-com.fernandoalencar.algamoneyapi.config.property.AlgamoneyApiProperty")
+    @Qualifier("algamoneyApiProperty")
     @Autowired
     private AlgamoneyApiProperty property;
 
