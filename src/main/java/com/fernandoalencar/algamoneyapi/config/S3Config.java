@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class S3Config {
 
-    private AlgamoneyApiProperty property;
+    private final AlgamoneyApiProperty property;
 
     public S3Config(@Qualifier("algamoneyApiProperty") AlgamoneyApiProperty property) {
         this.property = property;
