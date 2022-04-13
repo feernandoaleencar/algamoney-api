@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class S3Config {
 
-    @Qualifier("algamoney-com.fernandoalencar.algamoneyapi.config.property.AlgamoneyApiProperty")
+    @Qualifier("algamoneyApiProperty")
     @Autowired
     private AlgamoneyApiProperty property;
 
