@@ -1,6 +1,8 @@
 package com.fernandoalencar.algamoneyapi.model;
 
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Embeddable
 public class Endereco {
@@ -10,8 +12,10 @@ public class Endereco {
 	private String complemento;
 	private String bairro;
 	private String cep;
-	private String cidade;
-	private String estado;
+
+	@ManyToOne
+	@JoinColumn(name = "codigo_ibge")
+	private Municipio municipio;
 
 	public String getLogradouro() {
 		return logradouro;
@@ -53,20 +57,11 @@ public class Endereco {
 		this.cep = cep;
 	}
 
-	public String getCidade() {
-		return cidade;
+	public Municipio getMunicipio() {
+		return municipio;
 	}
 
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
+	public void setMunicipio(Municipio municipio) {
+		this.municipio = municipio;
 	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
 }
