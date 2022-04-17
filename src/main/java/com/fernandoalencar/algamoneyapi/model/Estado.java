@@ -1,5 +1,6 @@
 package com.fernandoalencar.algamoneyapi.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 public class Estado {
 
     @Id
-    private Long codigo_uf;
+    private Long codigo;
 
     private String uf;
     private String nome;
@@ -18,12 +19,12 @@ public class Estado {
     private BigDecimal longitude;
     private String regiao;
 
-    public Long getCodigo_uf() {
-        return codigo_uf;
+    public Long getCodigo() {
+        return codigo;
     }
 
-    public void setCodigo_uf(Long codigo_uf) {
-        this.codigo_uf = codigo_uf;
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     public String getUf() {
@@ -70,7 +71,7 @@ public class Estado {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((codigo_uf == null) ? 0 : codigo_uf.hashCode());
+        result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
         return result;
     }
 
@@ -83,10 +84,10 @@ public class Estado {
         if (getClass() != obj.getClass())
             return false;
         Estado other = (Estado) obj;
-        if (codigo_uf == null) {
-            if (other.codigo_uf != null)
+        if (codigo == null) {
+            if (other.codigo != null)
                 return false;
-        } else if (!codigo_uf.equals(other.codigo_uf))
+        } else if (!codigo.equals(other.codigo))
             return false;
         return true;
     }

@@ -20,7 +20,7 @@ public class MunicipioController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public List<Municipio> pesquisar(@RequestParam Long codigoUf) {
-        return municipioRepository.findByEstadoCodigoUf(codigoUf);
+    public List<Municipio> pesquisar(@RequestParam Long codigo) {
+        return municipioRepository.findByEstadoCodigo(codigo);
     }
 }

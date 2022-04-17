@@ -1,5 +1,5 @@
 CREATE TABLE estado(
-                        codigo_uf BIGINT PRIMARY KEY NOT NULL,
+                        codigo BIGINT PRIMARY KEY NOT NULL,
                         uf VARCHAR(2) NOT NULL,
                         nome VARCHAR(100) NOT NULL,
                         latitude DECIMAL(10,2) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE municipio(
                           siafi_id VARCHAR(4) NOT NULL UNIQUE,
                           ddd BIGINT NOT NULL,
                           fuso_horario VARCHAR(32) NOT NULL,
-                          FOREIGN KEY (codigo_uf) REFERENCES estado (codigo_uf)
+                          FOREIGN KEY (codigo_uf) REFERENCES estado (codigo)
 );
 
 INSERT INTO municipio VALUES
@@ -5621,3 +5621,10 @@ INSERT INTO municipio VALUES
                           (3557154,'Zacarias',-21.0506,-50.0552,FALSE,35,'2973',18,'America/Sao_Paulo'),
                           (2114007,'Zé Doca',-3.27014,-45.6553,FALSE,21,'1287',98,'America/Sao_Paulo'),
                           (4219853,'Zortéa',-27.4521,-51.552,FALSE,42,'0950',49,'America/Sao_Paulo');
+
+ALTER TABLE pessoa DROP COLUMN cidade;
+ALTER TABLE pessoa DROP COLUMN estado;
+ALTER TABLE pessoa ADD COLUMN codigo_ibge BIGINT(20);
+ALTER TABLE pessoa ADD CONSTRAINT fk_pessoa_municipio FOREIGN KEY (codigo_ibge) REFERENCES municipio(codigo_ibge);
+
+UPDATE pessoa SET codigo_ibge = 2204402;

@@ -1,10 +1,6 @@
 package com.fernandoalencar.algamoneyapi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -12,13 +8,14 @@ import java.math.BigDecimal;
 public class Municipio {
 
     @Id
-    private Long codigo_ibge;
+    @Column(name = "codigo_ibge")
+    private Long codigoIbge;
 
     private String nome;
     private BigDecimal latitude;
     private BigDecimal longitude;
     private Boolean capital;
-    private String siafi_id;
+    private String siafiId;
     private Long ddd;
     private String fuso_horario;
 
@@ -26,12 +23,12 @@ public class Municipio {
     @JoinColumn(name = "codigo_uf")
     private Estado estado;
 
-    public Long getCodigo_ibge() {
-        return codigo_ibge;
+    public Long getCodigoIbge() {
+        return codigoIbge;
     }
 
-    public void setCodigo_ibge(Long codigo_ibge) {
-        this.codigo_ibge = codigo_ibge;
+    public void setCodigoIbge(Long codigoIbge) {
+        this.codigoIbge = codigoIbge;
     }
 
     public String getNome() {
@@ -66,12 +63,12 @@ public class Municipio {
         this.capital = capital;
     }
 
-    public String getSiafi_id() {
-        return siafi_id;
+    public String getSiafiId() {
+        return siafiId;
     }
 
-    public void setSiafi_id(String siafi_id) {
-        this.siafi_id = siafi_id;
+    public void setSiafiId(String siafiId) {
+        this.siafiId = siafiId;
     }
 
     public Long getDdd() {
@@ -102,7 +99,7 @@ public class Municipio {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((codigo_ibge == null) ? 0 : codigo_ibge.hashCode());
+        result = prime * result + ((codigoIbge == null) ? 0 : codigoIbge.hashCode());
         return result;
     }
 
@@ -115,10 +112,10 @@ public class Municipio {
         if (getClass() != obj.getClass())
             return false;
         Municipio other = (Municipio) obj;
-        if (codigo_ibge == null) {
-            if (other.codigo_ibge != null)
+        if (codigoIbge == null) {
+            if (other.codigoIbge != null)
                 return false;
-        } else if (!codigo_ibge.equals(other.codigo_ibge))
+        } else if (!codigoIbge.equals(other.codigoIbge))
             return false;
         return true;
     }

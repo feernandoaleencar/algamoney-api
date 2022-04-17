@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface MunicipioRepository extends JpaRepository<Municipio, Long> {
 
-    List<Municipio> findByEstadoCodigoUf(Long codigo);
+    List<Municipio> findByEstadoCodigo(Long estadoCodigo);
 }
