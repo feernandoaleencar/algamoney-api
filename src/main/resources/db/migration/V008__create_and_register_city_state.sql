@@ -1,5 +1,5 @@
 CREATE TABLE estado(
-                        codigo BIGINT PRIMARY KEY NOT NULL,
+                        codigo BIGINT(20) PRIMARY KEY NOT NULL,
                         uf VARCHAR(2) NOT NULL,
                         nome VARCHAR(100) NOT NULL,
                         latitude DECIMAL(10,2) NOT NULL,
@@ -38,17 +38,17 @@ INSERT INTO estado VALUES
 
 
 CREATE TABLE municipio(
-                          codigo_ibge BIGINT PRIMARY KEY  NOT NULL,
+                          codigo_ibge BIGINT(20) PRIMARY KEY  NOT NULL,
                           nome VARCHAR(100) NOT NULL,
                           latitude DECIMAL(10,2) NOT NULL,
                           longitude DECIMAL(10,2) NOT NULL,
                           capital BOOLEAN NOT NULL,
-                          codigo_uf BIGINT NOT NULL,
+                          codigo_uf BIGINT(20) NOT NULL,
                           siafi_id VARCHAR(4) NOT NULL UNIQUE,
-                          ddd BIGINT NOT NULL,
+                          ddd BIGINT(20) NOT NULL,
                           fuso_horario VARCHAR(32) NOT NULL,
-                          FOREIGN KEY (codigo_uf) REFERENCES estado (codigo)
-);
+                          FOREIGN KEY (codigo_uf) REFERENCES estado(codigo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO municipio VALUES
                           (5200050,'Abadia de Goiás',-16.7573,-49.4412,FALSE,52,'1050',62,'America/Sao_Paulo'),

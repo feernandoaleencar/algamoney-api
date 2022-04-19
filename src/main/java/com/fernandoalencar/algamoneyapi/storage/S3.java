@@ -26,7 +26,7 @@ public class S3 {
     @Autowired
     private AlgamoneyApiProperty property;
 
-    @Autowired
+    //@Autowired
     private AmazonS3 amazonS3;
 
     public String salvarTemporariamente(MultipartFile arquivo) {
